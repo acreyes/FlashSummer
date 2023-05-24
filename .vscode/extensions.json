@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "ms-vscode-remote.remote-containers",
+        "ms-toolsai.jupyter",
+        "fortran-lang.linter-gfortran",
+        "alefragnani.project-manager",
+        "ms-python.python",
+    ]
+}
