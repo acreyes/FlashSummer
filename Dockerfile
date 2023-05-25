@@ -79,9 +79,7 @@ RUN wget -q -O - https://github.com/hypre-space/hypre/archive/v2.19.0.tar.gz | t
 # #      INSTALL YT     #
 # #                        #
 # ##########################
-# RUN wget -q -O - https://github.com/visit-dav/visit/releases/download/v2.13.3/visit2_13_3.linux-x86_64-ubuntu18.tar.gz | tar -C /tmp -xzf -&& \
-#     mkdir /usr/local/visit && cp -r /tmp/visit2_13_3.linux-x86_64/* /usr/local/visit/
-RUN pip3 install yt
+RUN pip3 install yt h5py
 
 
 RUN useradd -m -G sudo -s /bin/bash \
