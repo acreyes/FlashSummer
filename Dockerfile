@@ -18,8 +18,6 @@ RUN apt-get update && \
 #############################
 RUN apt-get -y install \
     bash \
-    vim \
-    tmux \
     build-essential \
     g++ \
     gcc \
@@ -27,8 +25,10 @@ RUN apt-get -y install \
     gfortran \
     libz-dev \
     openssh-client \
-    python3 \
     subversion \
+    python3 \
+    pip \
+    git \
     sudo \
     wget \
     && \
@@ -76,25 +76,17 @@ RUN wget -q -O - https://github.com/hypre-space/hypre/archive/v2.19.0.tar.gz | t
 
 # ##########################
 # #                        #
-# #      INSTALL VISIT     #
+# #      INSTALL YT     #
 # #                        #
 # ##########################
 # RUN wget -q -O - https://github.com/visit-dav/visit/releases/download/v2.13.3/visit2_13_3.linux-x86_64-ubuntu18.tar.gz | tar -C /tmp -xzf -&& \
 #     mkdir /usr/local/visit && cp -r /tmp/visit2_13_3.linux-x86_64/* /usr/local/visit/
+RUN pip3 install yt
 
-# ##########################
-# #                        #
-# #      SETUP SSH SER     #
-# #                        #
-# ##########################
-
-RUN apt-get update && apt-get install openssh-server sudo -y
 
 RUN useradd -m -G sudo -s /bin/bash \
     -p $(perl -e 'print crypt($ARGV[0], "password")' 'flash') flash
 
-RUN service ssh start
-EXPOSE 22
 
 USER flash
 
