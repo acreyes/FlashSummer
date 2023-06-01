@@ -250,6 +250,15 @@ code plot_sedov.ipynb
 We're using [yt](https://yt-project.org) for visualization. I've only shown a simple colormap of density, but the library is capable of much more!
 
 
+## LaserSlab
+
+```
+./setup -auto LaserSlab -2d +cylindrical -nxb=16 -nyb=16 +hdf5typeio \
+          species=cham,targ +mtmmmt +laser +uhd3t +mgd mgd_meshgroups=6 \
+          -parfile=example.par
+```
+
+
 
 
 
