@@ -1,5 +1,9 @@
 FROM ubuntu:20.04
 
+ENV MPICH=4.1.2
+ENV HDF5=1.12.0
+ENV HYPRE=2.30.0
+
 ##########################
 #                        #
 #     INSTALL TZDATA     #
@@ -10,70 +14,69 @@ RUN apt-get update && \
     ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
 
-
 #############################
 #                           #
 #     INSTALL COMPILERS     #
 #                           #
 #############################
-RUN apt-get -y install \
+RUN apt-get update && apt-get -y install \
     bash \
     build-essential \
-    g++ \
-    gcc \
-    gdb \
-    gfortran \
+    cmake \
+    less \
+    g++-12 \
+    gcc-12 \
+    gfortran-12 \
     liblapack-dev \
     libz-dev \
+    python2 \
+    python3-pip \
     openssh-client \
     subversion \
-    python3 \
-    pip \
-    git \
-    sudo \
-    wget \
-    && \
+    m4 \
+    wget && \
     rm -rf /var/lib/apt/lists/* && \
-    ln -s /usr/bin/python3 /usr/local/bin/python
+    ln -s /usr/bin/python2 /usr/local/bin/python
 
+# PYBIND11
+RUN pip3 install pybind11
 
 #########################
 #                       #
 #     INSTALL MPICH     #
 #                       #
 #########################
-RUN wget -q -O - http://www.mpich.org/static/downloads/3.3.2/mpich-3.3.2.tar.gz | tar -C /tmp -xzf - && \
-    cd /tmp/mpich-3.3.2 && \
-    ./configure && \
+RUN wget -q -O - http://www.mpich.org/static/downloads/${MPICH}/mpich-${MPICH}.tar.gz | tar -C /tmp -xzf - && \
+    cd /tmp/mpich-${MPICH} && \
+    FC=gfortran-12 CC=gcc-12 CXX=g++-12 ./configure && \
     make -j 4 && \
     make install && \
-    rm -rf /tmp/mpich-3.3.2
+    rm -rf /tmp/mpich-${MPICH}
 
 
-########################
-#                      #
-#     INSTALL HDF5     #
-#                      #
-########################
-RUN wget -q -O - https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1.12.0/src/hdf5-1.12.0.tar.gz | tar -C /tmp -xzf - && \
-    cd /tmp/hdf5-1.12.0 && \
+# ########################
+# #                      #
+# #     INSTALL HDF5     #
+# #                      #
+# ########################
+RUN wget -q -O - https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-${HDF5}/src/hdf5-${HDF5}.tar.gz | tar -C /tmp -xzf - && \
+    cd /tmp/hdf5-${HDF5} && \
     ./configure --prefix=/usr/local --enable-parallel --enable-fortran && \
     make -j 4 && \
     make install && \
-    rm -rf /tmp/hdf5-1.12.0
+    rm -rf /tmp/hdf5-${HDF5}
 
-
-#########################
-#                       #
-#     INSTALL HYPRE     #
-#                       #
-#########################
-RUN wget -q -O - https://github.com/hypre-space/hypre/archive/v2.30.0.tar.gz | tar -C /tmp -xzf - && \
-    cd /tmp/hypre-2.19.0/src && \
+# # #########################
+# # #                       #
+# # #     INSTALL HYPRE     #
+# # #                       #
+# # #########################
+RUN wget -q -O - https://github.com/hypre-space/hypre/archive/v${HYPRE}.tar.gz | tar -C /tmp -xzf - && \
+    cd /tmp/hypre-${HYPRE}/src && \
     ./configure --prefix=/usr/local && \
     make -j 4 && \
     make install && \
-    rm -rf /tmp/hypre-2.19.0
+    rm -rf /tmp/hypre-${HYPRE}
 
 # ##########################
 # #                        #
