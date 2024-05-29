@@ -23,6 +23,7 @@ RUN apt-get -y install \
     gcc \
     gdb \
     gfortran \
+    liblapack-dev \
     libz-dev \
     openssh-client \
     subversion \
