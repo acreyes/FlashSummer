@@ -213,7 +213,7 @@ We do this with a `Dockerfile` that gives a recipe for preparing a docker contai
 
 ```bash
 make -j
-docker container create -i -t -h icksa-docker --name flash4 -v $(pwd):/mnt/data flashcenter/flash4-deps-dev
+docker container create -i -t -h gnu-mpich --name flash4 -v $(pwd):/mnt/data flashcenter/flash4-deps-dev
 ```
 
 We can attach to the container from VSCode just like we did before. Let's copy in the tarball of the code and uncompress it
