@@ -68,7 +68,7 @@ RUN wget -q -O - https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-1
 #     INSTALL HYPRE     #
 #                       #
 #########################
-RUN wget -q -O - https://github.com/hypre-space/hypre/archive/v2.19.0.tar.gz | tar -C /tmp -xzf - && \
+RUN wget -q -O - https://github.com/hypre-space/hypre/archive/v2.30.0.tar.gz | tar -C /tmp -xzf - && \
     cd /tmp/hypre-2.19.0/src && \
     ./configure --prefix=/usr/local && \
     make -j 4 && \
