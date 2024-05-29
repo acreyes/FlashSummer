@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV MPICH=4.1.2
 ENV HDF5=1.12.0
@@ -38,8 +38,6 @@ RUN apt-get update && apt-get -y install \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/python2 /usr/local/bin/python
 
-# PYBIND11
-RUN pip3 install pybind11
 
 #########################
 #                       #
@@ -78,13 +76,10 @@ RUN wget -q -O - https://github.com/hypre-space/hypre/archive/v${HYPRE}.tar.gz |
     make install && \
     rm -rf /tmp/hypre-${HYPRE}
 
-# ##########################
-# #                        #
-# #      INSTALL YT     #
-# #                        #
-# ##########################
-RUN pip3 install yt h5py
-
+# PYBIND11 YT H5PY
+ENV HDF5_DIR=/usr/local
+RUN pip3 install --upgrade pip
+RUN pip3 install pybind11 yt h5py
 
 RUN useradd -m -G sudo -s /bin/bash \
     -p $(perl -e 'print crypt($ARGV[0], "password")' 'flash') flash
