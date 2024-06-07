@@ -71,7 +71,7 @@ RUN wget -q -O - https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-$
 # # #########################
 RUN wget -q -O - https://github.com/hypre-space/hypre/archive/v${HYPRE}.tar.gz | tar -C /tmp -xzf - && \
     cd /tmp/hypre-${HYPRE}/src && \
-    ./configure --prefix=/usr/local && \
+    ./configure --prefix=/usr/local CFLAGS=-fPIC && \
     make -j 4 && \
     make install && \
     rm -rf /tmp/hypre-${HYPRE}
